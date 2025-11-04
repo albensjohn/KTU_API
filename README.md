@@ -18,18 +18,6 @@ A modern, updated API for fetching student data from Kerala Technological Univer
 - **Error Handling** - Robust error handling with retry logic
 - **CORS Support** - Ready for frontend integration
 
-## 📋 What's New
-
-Compared to the original 2019 project:
-
-- ✅ Updated all dependencies to latest versions
-- ✅ Removed deprecated Redis dependency (uses in-memory cache)
-- ✅ Removed Firebase dependency (simpler architecture)
-- ✅ Modern ES modules instead of CommonJS
-- ✅ Simplified environment setup
-- ✅ Better error handling and retry logic
-- ✅ Improved scraping reliability
-
 ## 🛠️ Installation
 
 ### Prerequisites
