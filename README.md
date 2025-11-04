@@ -1,83 +1,79 @@
-# KTU API - Modernized Version
+# KTU API (Modern Version)
 
-A modern, updated API for fetching student data from Kerala Technological University (KTU) portal. This is a complete rewrite of the original 6-year-old project with current technologies.
+A clean, modernized REST API for fetching student data from Kerala Technological University (KTU) portals — rewritten for 2025 with updated dependencies and simplified architecture.
+
+---
 
 ## 🚀 Features
 
-- **Complete Student Profile** - Name, Admission No, Branch, Semester, Batch, College
-- **Activity Points Tracking** - Total points, breakdown by category, status (100 required)
-- **Attendance Monitoring** - Overall and subject-wise attendance (75% mandatory)
-- **Academic Info** - CGPA, SGPA, Percentage calculation, Credits earned
-- **Semester Results** - Course-wise grades, credits, and grade points
-- **Public Results Access** - Exam results without login
-- **Announcements** - Latest KTU notifications
-- **Modern Stack** - Built with latest Node.js (18+), Express, and ES modules
-- **Web Scraping** - Uses Axios and Cheerio for reliable data fetching
-- **Session Management** - Handles KTU portal authentication
-- **Caching** - Built-in caching to reduce load on KTU servers
-- **Error Handling** - Robust error handling with retry logic
-- **CORS Support** - Ready for frontend integration
+- **Complete Student Profile** — Name, Admission No, Branch, Semester, Batch, College
+- **Academic Info** — CGPA, SGPA, Percentage, Credits Earned
+- **Semester Results** — Course-wise grades, credits, and grade points
+- **Modern Stack** — Node.js 18+, Express, ES Modules
+- **Web Scraping** — Axios + Cheerio
+- **Session Management** — Handles KTU portal authentication
+- **Caching** — In-memory cache (NodeCache)
+- **Error Handling** — Retry logic and structured error responses
+- **CORS Ready** — Works with any frontend
 
-## 🛠️ Installation
+---
 
-### Prerequisites
+## 🧩 Tech Stack
 
-- Node.js 18 or higher
-- npm or yarn
+- **Runtime:** Node.js 18+
+- **Framework:** Express.js
+- **Scraper:** Axios + Cheerio
+- **Cache:** NodeCache (in-memory)
+- **Modules:** ES Modules (no CommonJS)
 
-### Setup
+---
 
-1. **Clone or create the project**:
+## 🛠️ Setup
+
+### 1. Clone the project
 ```bash
-mkdir ktu-api
-cd ktu-api
+git clone https://github.com/albensjohn/KTU-API
+cd KTU-API
 ```
 
-2. **Create the files**:
-   - Copy `package.json`
-   - Copy `server.js`
-   - Copy `.env.example` to `.env`
+### 2. Create files
+- `.env`
 
-3. **Install dependencies**:
+### 3. Install dependencies
 ```bash
 npm install
 ```
 
-4. **Start the server**:
+### 4. Start the server
 ```bash
+# Development (auto reload)
+npm run dev
+
 # Production
 npm start
-
-# Development with auto-reload
-npm run dev
 ```
 
-The server will start on `http://localhost:3000`
+Server starts at:
+```
+http://localhost:3000
+```
+
+---
 
 ## 📡 API Endpoints
 
-### 1. Get Complete Student Profile ⭐ NEW
+### 1️⃣ Get Complete Student Profile
+Fetches full student details (requires credentials).
 
-**Get ALL student details: Name, Activity Points, Attendance, Credits, CGPA**
-
-```bash
-POST /api/profile
-Content-Type: application/json
-
+**POST** `/api/profile`
+```json
 {
   "registerNo": "ABC20CS001",
   "password": "your_password"
 }
 ```
 
-**Example with curl**:
-```bash
-curl -X POST http://localhost:3000/api/profile \
-  -H "Content-Type: application/json" \
-  -d '{"registerNo":"ABC20CS001","password":"your_password"}'
-```
-
-**Response**:
+**Response:**
 ```json
 {
   "registerNo": "ABC20CS001",
@@ -91,218 +87,62 @@ curl -X POST http://localhost:3000/api/profile \
   },
   "academicInfo": {
     "cgpa": "8.5",
-    "sgpa": "8.7",
-    "percentage": "82.5%"
+    "sgpa": "8.7"
   },
-  "attendance": {
-    "overall": "85.5%",
-    "subjects": [
-      {
-        "subject": "Data Structures",
-        "attended": 34,
-        "total": 40,
-        "percentage": "85%"
-      }
-    ]
-  },
-  "activityPoints": {
-    "total": "95",
-    "required": "100",
-    "status": "Pending",
-    "breakdown": [
-      {
-        "category": "NSS/NCC",
-        "points": 60
-      },
-      {
-        "category": "Technical Events",
-        "points": 35
-      }
-    ]
-  },
-  "credits": {
-    "earned": "148",
-    "required": "162",
-    "courseCredits": "160",
-    "activityCredits": "2"
-  },
-  "semesterResults": [...]
-}
-```
-
-### 2. Get Public Student Results
-
-```bash
-GET /api/results/:registerNo
-```
-
-**Example**:
-```bash
-curl http://localhost:3000/api/results/ABC20CS001
-```
-
-**Response**:
-```json
-{
-  "registerNo": "ABC20CS001",
-  "studentName": "John Doe",
-  "results": [
+  "semesterResults": [
     {
-      "examName": "S1 Exam Dec 2020",
-      "examDate": "Dec 2020",
-      "sgpa": "8.5",
-      "cgpa": "8.5",
-      "subjects": [...]
+      "courseCode": "CS301",
+      "courseName": "Data Structures",
+      "grade": "A+",
+      "credits": "4"
     }
   ]
 }
 ```
 
-### 3. Get Detailed Attendance
-
-```bash
-POST /api/attendance
-Content-Type: application/json
-
-{
-  "registerNo": "ABC20CS001",
-  "password": "your_password"
-}
-```
-
-**Response**:
-```json
-{
-  "overall": "85.5%",
-  "subjects": [
-    {
-      "subject": "Data Structures",
-      "attended": 34,
-      "total": 40,
-      "percentage": "85%"
-    }
-  ],
-  "lastUpdated": "2025-11-01T10:00:00.000Z"
-}
-```
-
-### 4. Get Announcements
-
-```bash
-GET /api/announcements
-```
-
-**Response**:
-```json
-{
-  "announcements": [
-    {
-      "title": "Exam Schedule Released",
-      "date": "Nov 1, 2025",
-      "description": "...",
-      "links": [...]
-    }
-  ],
-  "count": 20,
-  "lastUpdated": "2025-11-01T10:00:00.000Z"
-}
-```
-
-### 5. Health Check
-
-```bash
-GET /health
-```
-
-**Response**:
+### 2️⃣ Health Check
+**GET** `/health`
 ```json
 {
   "status": "ok",
-  "timestamp": "2025-11-01T10:00:00.000Z",
-  "endpoints": {...}
+  "timestamp": "2025-11-02T00:00:00.000Z",
+  "endpoints": ["/api/profile"]
 }
 ```
 
-## 🔧 Configuration
+---
 
-Edit the `.env` file:
+## ⚙️ Configuration
 
+### .env Example
 ```bash
+# Server Configuration
 PORT=3000
 NODE_ENV=development
+
+# Cache TTL in seconds (default: 1800 = 30 minutes)
+CACHE_TTL=1800
 ```
 
-## 🐳 Docker Support (Optional)
+---
 
-Create a `Dockerfile`:
+## 🧠 How It Works
 
-```dockerfile
-FROM node:18-alpine
+1. Uses Axios to fetch HTML pages from the official KTU portal.
+2. Parses the content with Cheerio to extract relevant data (profile, CGPA, results, etc.).
+3. Returns structured JSON responses.
+4. Uses NodeCache to reduce load and accelerate responses.
 
-WORKDIR /app
+---
 
-COPY package*.json ./
-RUN npm ci --only=production
+## 🧩 Notes & Limitations
 
-COPY . .
+- This is **not an official KTU API** — it scrapes publicly available data.
+- If KTU changes its website structure, selectors must be updated.
+- In-memory cache resets on restart — use Redis for persistent caching in production.
 
-EXPOSE 3000
+---
 
-CMD ["npm", "start"]
-```
+## 🧑‍💻 Author
+**KTU API Modern Version** — Rewritten by community contributors for 2025 Node.js standards.
 
-Build and run:
-```bash
-docker build -t ktu-api .
-docker run -p 3000:3000 ktu-api
-```
-
-## 📝 Notes
-
-### Why This Works Now
-
-The original project failed because:
-
-1. **Old Dependencies**: Used deprecated packages that no longer work
-2. **Complex Setup**: Required Redis, Firebase, and other services
-3. **Outdated Scraping**: Website structure changed
-4. **No Maintenance**: 6 years without updates
-
-This version fixes all these issues with:
-
-- Modern, maintained dependencies
-- Simpler architecture (no external services needed)
-- Updated scraping logic
-- Current best practices
-
-### Limitations
-
-- **Rate Limiting**: Built-in caching reduces requests, but excessive use may be blocked by KTU
-- **Dynamic Content**: Some KTU pages use JavaScript rendering - for those, you'd need Puppeteer
-- **Structure Changes**: If KTU changes their website structure, scraping logic needs updates
-
-### Adding Puppeteer (for JavaScript-rendered pages)
-
-If you need to scrape pages that require JavaScript execution:
-
-```bash
-npm install puppeteer
-```
-
-Then modify the scraping logic to use Puppeteer instead of Axios.
-
-## 🤝 Contributing
-
-Feel free to submit issues and enhancement requests!
-
-## 📄 License
-
-GPL-3.0 (same as original project)
-
-## ⚠️ Disclaimer
-
-This is an unofficial API. Use responsibly and respect KTU's terms of service. Don't overload their servers.
-
-## 🙏 Credits
-
-Based on the original project by ktuapp (2019), completely rewritten with modern technologies.
